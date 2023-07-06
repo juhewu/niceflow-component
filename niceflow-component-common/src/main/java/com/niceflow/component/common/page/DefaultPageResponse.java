@@ -1,5 +1,6 @@
 package com.niceflow.component.common.page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class DefaultPageResponse<T> implements PageResponse<T> {
     /**
      * 数据列表
      */
-    protected List<T> records;
+    protected List<T> records = new ArrayList<>();
     /**
      * 每页大小
      */

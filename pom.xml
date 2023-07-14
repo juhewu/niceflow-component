@@ -8,6 +8,10 @@
     <artifactId>niceflow-component</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>Niceflow Component</name>
+    <url>https://github.com/duan847/niceflow-component</url>
+
     <modules>
         <module>niceflow-component-common</module>
         <module>niceflow-component-captcha</module>
@@ -15,6 +19,8 @@
         <module>niceflow-component-mongo</module>
         <module>niceflow-component-security-resource</module>
     </modules>
+
+
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
@@ -27,8 +33,6 @@
         <!--hutool 常用工具类-->
         <hutool.version>5.8.11</hutool.version>
     </properties>
-
-
 
     <!--依赖管理-->
     <dependencyManagement>
@@ -50,4 +54,65 @@
             <url>https://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
+
+    <organization>
+        <name>niceflow</name>
+        <url>https://github.com/niceflow/</url>
+    </organization>
+    
+    <scm>
+        <url>https://github.com/duan847/niceflow-component</url>
+        <connection>scm:git:git:////github.com/duan847/niceflow-component.git</connection>
+        <developerConnection>scm:git:ssh://git@//github.com/duan847/niceflow-component.git
+        </developerConnection>
+    </scm>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/duan847/niceflow-component/issues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>Development List</name>
+            <subscribe>dev-subscribe@dubbo.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@dubbo.apache.org</unsubscribe>
+            <post>dev@duan847.org</post>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <id>duanjiawei</id>
+            <name>段佳维</name>
+            <email>dev@duan847.org</email>
+            <url>https://github.com/duan847</url>
+        </developer>
+    </developers>
+
+    <!-- 许可证信息 -->
+    <licenses>
+        <!-- MIT许可证 -->
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <!-- 发布管理信息 -->
+    <distributionManagement>
+        <repository>
+            <!-- 这里的id必须要和全局配置中的release id 一致 -->
+            <id>nexus_releases</id>
+            <name>Nexus Release Repository</name>
+            <!-- 这里就是在创建issue成功后，对方回复的release发布地址-->
+            <url>https://nexus.duanjw.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <!-- 这里的id必须要和全局配置中的snapshot id 一致 -->
+            <id>nexus_snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <!-- 这里就是在创建issue成功后，对方回复的snapshot发布地址-->
+            <url>https://nexus.duanjw.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

@@ -1,7 +1,8 @@
-package com.niceflow.component.security.resource.config;
+package com.niceflow.component.security.resource.user;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.niceflow.component.security.resource.user.SecurityUserContext;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
@@ -23,8 +24,8 @@ public class CustomAuthoritiesOpaqueTokenIntrospector implements OpaqueTokenIntr
         OAuth2AuthenticatedPrincipal principal = this.delegate.introspect(token);
         Map<String, Object> attributes = principal.getAttributes();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        UserContext userContext = objectMapper.readValue(attributes.get("userInfo").toString(), UserContext.class);
-        userContext.setAttributes(attributes);
-        return userContext;
+        SecurityUserContext securityUserContext = objectMapper.readValue(attributes.get("userInfo").toString(), SecurityUserContext.class);
+        securityUserContext.setAttributes(attributes);
+        return securityUserContext;
     }
 }

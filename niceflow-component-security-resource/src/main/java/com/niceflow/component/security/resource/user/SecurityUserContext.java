@@ -1,4 +1,4 @@
-package com.niceflow.component.security.resource.config;
+package com.niceflow.component.security.resource.user;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @date 2023/6/18
  */
 @Data
-public class UserContext implements OAuth2AuthenticatedPrincipal {
+public class SecurityUserContext implements OAuth2AuthenticatedPrincipal {
     /**
      * id
      */

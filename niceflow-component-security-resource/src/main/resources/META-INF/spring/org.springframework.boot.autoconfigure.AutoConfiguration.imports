@@ -1,1 +1,1 @@
-com.niceflow.component.security.resource.config.ResourceServerConfig
+com.niceflow.component.security.resource.config.ResourceServerAutoConfiguration

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import org.springframework.security.access.AccessDeniedException;
 import java.sql.SQLException;
 
 /**
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.OK)
-    public R<Boolean> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
+    public R<Object> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         StringBuilder errorMessage = new StringBuilder();
 
@@ -61,7 +62,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BusinessException.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.OK)
-    public R<Boolean> handleException(HttpServletRequest req, BusinessException e) {
+    public R<Object> handleException(HttpServletRequest req, BusinessException e) {
         log(req, e);
         return R.failed(e.getErrorCode(), e.getMessage());
     }
@@ -76,7 +77,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.OK)
-    public R<Boolean> handleException(HttpServletRequest req, HttpMessageNotReadableException e) {
+    public R<Object> handleException(HttpServletRequest req, HttpMessageNotReadableException e) {
         log(req, e);
         return R.failed("传递的参数异常，请检查请求地址或请求体中的参数");
     }
@@ -91,7 +92,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public R<Boolean> handleException(HttpServletRequest req, NoHandlerFoundException e) {
+    public R<Object> handleException(HttpServletRequest req, NoHandlerFoundException e) {
         log(req, e);
         return R.failed("没有找到您要访问的资源，请检查请求地址是否正确，请求地址：" + req.getRequestURI());
     }
@@ -106,9 +107,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ MongoException.class, SQLException.class, DataAccessException.class })
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    public R<Boolean> handleDbException(HttpServletRequest req, Exception e) {
+    public R<Object> handleDbException(HttpServletRequest req, Exception e) {
         log(req, e);
         return R.failed("访问数据库出现异常，程序猿小哥哥正在努力修复中");
+    }
+
+    /**
+     * 无权访问该资源
+     *
+     * @param req 请求
+     * @param e 参数错误信息
+     * @return 客户端响应
+     */
+    @ExceptionHandler(value = AccessDeniedException.class)
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    public R<Object> handleException(HttpServletRequest req, AccessDeniedException e) {
+        log(req, e);
+        return R.failed("无权访问该资源").setCode(HttpStatus.FORBIDDEN.value());
     }
 
     /**
@@ -121,7 +137,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.OK)
-    public R<Boolean> handleException(HttpServletRequest req, Exception e) {
+    public R<Object> handleException(HttpServletRequest req, Exception e) {
         log(req, e);
         return R.failed(e.getMessage());
     }

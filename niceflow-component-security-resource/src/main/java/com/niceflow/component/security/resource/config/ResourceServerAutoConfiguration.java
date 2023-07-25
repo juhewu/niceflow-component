@@ -6,7 +6,6 @@ import com.niceflow.component.security.resource.user.CustomAuthoritiesOpaqueToke
 import com.niceflow.component.security.resource.user.MockAuthoritiesOpaqueTokenIntrospector;
 import com.niceflow.component.security.resource.user.SecurityUserContextProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,19 +23,19 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 @Configuration(proxyBeanMethods = false)
 public class ResourceServerAutoConfiguration {
 
+    //    @Bean
+//    @ConditionalOnMissingClass("org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService")
+//    public ResourceServerWebSecurityConfig resourceServerWebSecurityConfig(){
+//        return new ResourceServerWebSecurityConfig();
+//    }
     @Bean
-    @ConditionalOnMissingClass("org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService")
-    public ResourceServerWebSecurityConfig resourceServerWebSecurityConfig(){
-        return new ResourceServerWebSecurityConfig();
-    }
-    @Bean
-    @ConditionalOnProperty(value = "spring.security.oauth2.resourceserver.enable", havingValue = "true")
+    @ConditionalOnProperty(value = "spring.security.oauth2.resourceserver.enabled", havingValue = "true")
     public OpaqueTokenIntrospector customAuthoritiesOpaqueTokenIntrospector(OAuth2ResourceServerProperties oAuth2ResourceServerProperties) {
         return new CustomAuthoritiesOpaqueTokenIntrospector(oAuth2ResourceServerProperties.getOpaquetoken());
     }
 
     @Bean
-    @ConditionalOnProperty(value = "spring.security.oauth2.resourceserver.enable", havingValue = "false", matchIfMissing = true)
+    @ConditionalOnProperty(value = "spring.security.oauth2.resourceserver.enabled", havingValue = "false", matchIfMissing = true)
     public OpaqueTokenIntrospector mockAuthoritiesOpaqueTokenIntrospector() {
         return new MockAuthoritiesOpaqueTokenIntrospector();
     }
@@ -49,7 +48,7 @@ public class ResourceServerAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(
-            value = {"spring.security.oauth2.resourceserver.enable"},
+            value = {"spring.security.oauth2.resourceserver.enabled"},
             havingValue = "true"
     )
     public UserContextProvider userContextProvider() {

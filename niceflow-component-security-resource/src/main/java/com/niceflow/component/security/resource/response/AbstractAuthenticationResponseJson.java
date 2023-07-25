@@ -28,12 +28,9 @@ public class AbstractAuthenticationResponseJson {
 
     protected void responseFailed(HttpServletRequest request, HttpServletResponse response, String message, Integer code) throws IOException {
         response.setContentType("application/json;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(response.getStatus());
         try (PrintWriter writer = response.getWriter()) {
-            R<Object> objectR = new R<>();
-            objectR.setCode(code);
-            objectR.setMsg(message);
-            writer.write(new ObjectMapper().writeValueAsString(objectR));
+            writer.write(new ObjectMapper().writeValueAsString(R.failed(message).setCode(code)));
             writer.flush();
         }
     }

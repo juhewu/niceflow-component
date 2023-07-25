@@ -18,6 +18,7 @@
         <module>niceflow-component-spring-plus</module>
         <module>niceflow-component-mongo</module>
         <module>niceflow-component-security-resource</module>
+        <module>niceflow-component-config</module>
     </modules>
 
 

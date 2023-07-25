@@ -8,10 +8,7 @@ import com.niceflow.component.common.condition.MongoConditionParse;
 import com.niceflow.component.common.constants.ParamsConstant;
 import com.niceflow.component.common.db.DbTemplate;
 import com.niceflow.component.common.enums.NumberEnum;
-import com.niceflow.component.common.page.DefaultPageResponse;
-import com.niceflow.component.common.page.PageQuery;
-import com.niceflow.component.common.page.PageRequest;
-import com.niceflow.component.common.page.PageResponse;
+import com.niceflow.component.common.page.*;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -91,6 +88,14 @@ public class MongoTemplatePlus extends MongoTemplate implements DbTemplate {
             return findOne(new BasicQuery(filterDocument, filedDocument), clazz, collectionName);
         }
         return findOne(new BasicQuery(filterDocument), clazz, collectionName);
+    }
+
+    public <T> PageResponse<T> paginate(Query query, PageRequest pageRequest, Class<T> clazz) {
+        long count = count(query, clazz);
+        if (count == 0) {
+            return new DefaultPageResponse<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
+        }
+        return new DefaultPageResponse<>(find(query, clazz), count, pageRequest.getPageIndex(), pageRequest.getPageSize());
     }
 
     public <T> PageResponse<T> paginate(PageQuery<Condition> pageQuery, Class<T> clazz) {

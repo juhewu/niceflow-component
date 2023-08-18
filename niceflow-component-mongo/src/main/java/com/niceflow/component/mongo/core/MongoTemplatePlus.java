@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.niceflow.component.common.condition.Condition;
 import com.niceflow.component.common.condition.MongoConditionParse;
-import com.niceflow.component.common.constants.ParamsConstant;
+import com.niceflow.component.common.constants.CommonParamsConstant;
 import com.niceflow.component.common.db.DbTemplate;
 import com.niceflow.component.common.enums.NumberEnum;
 import com.niceflow.component.common.page.*;
@@ -33,14 +33,17 @@ import java.util.Objects;
  */
 public class MongoTemplatePlus extends MongoTemplate implements DbTemplate {
 
-    public final ObjectMapper objectMapper = new ObjectMapper();
+    public final ObjectMapper objectMapper;
 
-    public MongoTemplatePlus(MongoDatabaseFactory mongoDbFactory) {
+    public MongoTemplatePlus(MongoDatabaseFactory mongoDbFactory, ObjectMapper objectMapper) {
         super(mongoDbFactory);
+        this.objectMapper = objectMapper;
+
     }
 
-    public MongoTemplatePlus(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter) {
+    public MongoTemplatePlus(MongoDatabaseFactory mongoDbFactory, MongoConverter mongoConverter, ObjectMapper objectMapper) {
         super(mongoDbFactory, mongoConverter);
+        this.objectMapper = objectMapper;
     }
 
     public static Update buildUpdate(Map<String, Object> paramMap) {
@@ -132,16 +135,16 @@ public class MongoTemplatePlus extends MongoTemplate implements DbTemplate {
 
         });
         objectMap.values().removeIf(Objects::isNull);
-        Object id = objectMap.remove(ParamsConstant.ID);
+        Object id = objectMap.remove(CommonParamsConstant.ID);
         Update update = new Update();
         objectMap.forEach(update::set);
-        this.updateFirst(Query.query(Criteria.where(ParamsConstant.ID).is(id)), update, object.getClass());
+        this.updateFirst(Query.query(Criteria.where(CommonParamsConstant.ID).is(id)), update, object.getClass());
 
     }
 
     public Boolean updateById(String collectionName, String id, Map<String, Object> updateMap) {
         Update update = buildUpdate(updateMap);
-        Query query = new Query(new Criteria(ParamsConstant.UNDERLINE_ID).is(new ObjectId(id)));
+        Query query = new Query(new Criteria(CommonParamsConstant.UNDERLINE_ID).is(new ObjectId(id)));
         return super.updateFirst(query, update, collectionName).getModifiedCount() > 0;
     }
 

@@ -66,9 +66,9 @@ public class DefaultCaptchaProvider implements CaptchaProvider {
 
             String moduleId = obtainModuleId(request);
             CaptchaProperties.CaptchaConfig captchaConfig = Optional.ofNullable(moduleId).map(item -> captchaProperties.getCaptcha().get(item)).orElseThrow();
-            Generator generator = captchaConfig.getGenerator();
+            Generator generatorConfig = captchaConfig.getGenerator();
             // 获取验证码 key
-            String key = this.captchaGenerator.getKey(generator, request);
+            String key = this.captchaGenerator.getKey(generatorConfig, request);
 
             // 校验验证码是否失效
             if (Objects.nonNull(this.captchaRepository.get(key))) {
@@ -76,7 +76,7 @@ public class DefaultCaptchaProvider implements CaptchaProvider {
             }
 
             // 生成验证码
-            Captcha captcha = this.captchaGenerator.generate(generator);
+            Captcha captcha = this.captchaGenerator.generate(generatorConfig);
             captcha.setKey(key);
 
             // 保存验证码
@@ -116,9 +116,13 @@ public class DefaultCaptchaProvider implements CaptchaProvider {
             }
             boolean verified = this.captchaGenerator.verify(captchaConfig.getGenerator().getType(), captchaValue, secret);
 
-            if(!verified) {
+            if (!verified) {
                 throw new CaptchaMismatchException();
             }
+
+            // 删除验证码 todo 滑块验证码二次验证
+            captchaRepository.remove(captchaKey);
+
             this.captchaVerifyCompleteHandler.onComplete(request, response, true);
             return true;
         } catch (CaptchaSettingException e) {

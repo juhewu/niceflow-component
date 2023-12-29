@@ -103,17 +103,17 @@
     <distributionManagement>
         <repository>
             <!-- 这里的id必须要和全局配置中的release id 一致 -->
-            <id>nexus_releases</id>
+            <id>dc-releases</id>
             <name>Nexus Release Repository</name>
             <!-- 这里就是在创建issue成功后，对方回复的release发布地址-->
-            <url>https://nexus.duanjw.com/repository/maven-releases/</url>
+            <url>https://packages.aliyun.com/maven/repository/2445818-release-wKyXb1/</url>
         </repository>
         <snapshotRepository>
             <!-- 这里的id必须要和全局配置中的snapshot id 一致 -->
-            <id>nexus_snapshots</id>
+            <id>rdc-snapshots</id>
             <name>Nexus Snapshot Repository</name>
             <!-- 这里就是在创建issue成功后，对方回复的snapshot发布地址-->
-            <url>https://nexus.duanjw.com/repository/maven-snapshots/</url>
+            <url>https://packages.aliyun.com/maven/repository/2445818-snapshot-GauFYu/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>

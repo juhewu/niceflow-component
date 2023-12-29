@@ -1,6 +1,8 @@
 package com.niceflow.component.spring.plus.config;
 
+import com.niceflow.component.spring.plus.exception.GlobalExceptionHandler;
 import com.niceflow.component.spring.plus.util.SpringApplicationContextUtil;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +14,13 @@ import org.springframework.context.annotation.Configuration;
 public class SpringPlusAutoConfiguration {
 
     @Bean
-    public SpringApplicationContextUtil springApplicationContextUtil(){
+    public SpringApplicationContextUtil springApplicationContextUtil() {
         return new SpringApplicationContextUtil();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GlobalExceptionHandler globalExceptionHandler() {
+        return new GlobalExceptionHandler();
     }
 }

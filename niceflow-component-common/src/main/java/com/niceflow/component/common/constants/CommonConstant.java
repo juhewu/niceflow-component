@@ -10,4 +10,9 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class CommonConstant {
+
+    /**
+     * 62 进制
+     */
+    public final static String RADIX_62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 }

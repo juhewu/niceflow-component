@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import org.springframework.security.access.AccessDeniedException;
 import java.sql.SQLException;
 
 /**
@@ -34,7 +35,7 @@ public class GlobalExceptionHandler {
      * 参数校验异常
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -56,7 +57,7 @@ public class GlobalExceptionHandler {
      * 业务异常
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
     @ExceptionHandler(value = BusinessException.class)
@@ -71,7 +72,7 @@ public class GlobalExceptionHandler {
      * 请求参数异常
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -86,7 +87,7 @@ public class GlobalExceptionHandler {
      * 资源未找到异常
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -101,10 +102,10 @@ public class GlobalExceptionHandler {
      * 数据库异常
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
-    @ExceptionHandler({ MongoException.class, SQLException.class, DataAccessException.class })
+    @ExceptionHandler({MongoException.class, SQLException.class, DataAccessException.class, CannotCreateTransactionException.class})
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public R<Object> handleDbException(HttpServletRequest req, Exception e) {
@@ -116,7 +117,7 @@ public class GlobalExceptionHandler {
      * 无权访问该资源
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
     @ExceptionHandler(value = AccessDeniedException.class)
@@ -131,7 +132,7 @@ public class GlobalExceptionHandler {
      * 全局异常
      *
      * @param req 请求
-     * @param e 参数错误信息
+     * @param e   参数错误信息
      * @return 客户端响应
      */
     @ExceptionHandler(value = Exception.class)
@@ -146,7 +147,7 @@ public class GlobalExceptionHandler {
      * 记录日志
      *
      * @param req 请求
-     * @param e 异常
+     * @param e   异常
      */
     private void log(HttpServletRequest req, Exception e) {
         log.error("业务异常，请求地址：{}，错误信息：{}", req.getMethod() + " " + req.getRequestURI(), e.getMessage(), e);
@@ -155,9 +156,9 @@ public class GlobalExceptionHandler {
     /**
      * 记录日志
      *
-     * @param req 请求
+     * @param req     请求
      * @param message 错误消息
-     * @param e 异常
+     * @param e       异常
      */
     private void log(HttpServletRequest req, String message, Exception e) {
         log.error("业务异常，请求地址：{}，错误信息：{}，User-Agent：{}，用户 IP：{}", req.getMethod() + " " + req.getRequestURI(), message,

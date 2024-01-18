@@ -1,1 +1,2 @@
 com.niceflow.component.mongo.config.MongoDbAutoConfig
+com.niceflow.component.mongo.tenant.TenantMongoAutoConfiguration

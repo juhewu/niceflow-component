@@ -1,6 +1,7 @@
 package com.niceflow.component.mongo.tenant;
 
 import com.niceflow.component.common.base.TenantBaseEntity;
+import com.niceflow.component.common.user.UserContext;
 import com.niceflow.component.common.user.UserContextUtil;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -193,14 +194,14 @@ public class TenantSimpleMongoRepository<T, ID> extends SimpleMongoRepository<T,
     private Criteria getIdCriteria(Object id) {
         Criteria criteria = where(entityInformation.getIdAttribute()).is(id);
         if(isTenant()) {
-            return criteria.and("tenantId").is(UserContextUtil.getTenantId());
+            return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> where("tenantId").is(x)).orElse(new Criteria());
         }
         return criteria;
     }
 
     private Criteria getTenantCriteria(){
         if(isTenant()) {
-            return where("tenantId").is(UserContextUtil.getTenantId());
+            return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> where("tenantId").is(x)).orElse(new Criteria());
         }
         return new Criteria();
     }

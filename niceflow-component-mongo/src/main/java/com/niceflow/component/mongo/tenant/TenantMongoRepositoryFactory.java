@@ -2,6 +2,7 @@ package com.niceflow.component.mongo.tenant;
 
 import com.niceflow.component.common.annotation.IgnoreTenant;
 import com.niceflow.component.common.base.TenantBaseEntity;
+import com.niceflow.component.common.user.UserContext;
 import com.niceflow.component.common.user.UserContextUtil;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -27,6 +28,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 public class TenantMongoRepositoryFactory extends MongoRepositoryFactory {
     private static final SpelExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
@@ -104,7 +107,7 @@ public class TenantMongoRepositoryFactory extends MongoRepositoryFactory {
 
             private Query withCurrentTenant(Query query) {
                 if (tenant && !query.getQueryObject().containsKey("tenantId")) {
-                    return query.addCriteria(Criteria.where("tenantId").is(UserContextUtil.getTenantId()));
+                    return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> query.addCriteria(Criteria.where("tenantId").is(x))).orElse(query);
                 }
                 return query;
             }

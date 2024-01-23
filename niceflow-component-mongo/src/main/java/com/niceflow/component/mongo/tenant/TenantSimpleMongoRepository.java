@@ -194,7 +194,7 @@ public class TenantSimpleMongoRepository<T, ID> extends SimpleMongoRepository<T,
     private Criteria getIdCriteria(Object id) {
         Criteria criteria = where(entityInformation.getIdAttribute()).is(id);
         if(isTenant()) {
-            return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> where("tenantId").is(x)).orElse(new Criteria());
+            return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> criteria.and("tenantId").is(x)).orElse(criteria);
         }
         return criteria;
     }

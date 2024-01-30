@@ -42,13 +42,12 @@ public interface PageResponse<T> extends Slice {
      *
      * @return 数据列表
      */
-    List<T> getRecords();
+    List<T> getValue();
 
     /**
      * 设置数据列表
      *
      * @param list 数据列表
-     * @return 数据列表
      */
-    PageResponse<T> setRecords(List<T> list);
+    void setValue(List<T> list);
 }

@@ -1,5 +1,7 @@
 package com.niceflow.component.common.page;
 
+import com.niceflow.component.common.utils.AbstractRefResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * @author duanjw
  * @date 2023/3/30
  */
-public class DefaultPageResponse<T> implements PageResponse<T> {
+public class DefaultPageResponse<T> extends AbstractRefResponse implements PageResponse<T> {
 
     /**
      * 总条数
@@ -19,7 +21,7 @@ public class DefaultPageResponse<T> implements PageResponse<T> {
     /**
      * 数据列表
      */
-    protected List<T> records = new ArrayList<>();
+    protected List<T> value = new ArrayList<>();
     /**
      * 每页大小
      */
@@ -32,21 +34,21 @@ public class DefaultPageResponse<T> implements PageResponse<T> {
     public DefaultPageResponse() {
     }
 
-    public DefaultPageResponse(int pageIndex,int pageSize) {
+    public DefaultPageResponse(int pageIndex, int pageSize) {
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
-    public DefaultPageResponse(List<T> records, long total, int pageIndex, int pageSize) {
+    public DefaultPageResponse(List<T> value, long total, int pageIndex, int pageSize) {
         this.total = total;
-        this.records = records;
+        this.value = value;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
-    public DefaultPageResponse(List<T> records, long total, PageRequest pageRequest) {
+    public DefaultPageResponse(List<T> value, long total, PageRequest pageRequest) {
         this.total = total;
-        this.records = records;
+        this.value = value;
         this.pageSize = pageRequest.getPageSize();
         this.pageIndex = pageRequest.getPageIndex();
     }
@@ -77,20 +79,18 @@ public class DefaultPageResponse<T> implements PageResponse<T> {
      * @return 数据列表
      */
     @Override
-    public List<T> getRecords() {
-        return records;
+    public List<T> getValue() {
+        return value;
     }
 
     /**
      * 设置数据列表
      *
      * @param list 数据列表
-     * @return 数据列表
      */
     @Override
-    public PageResponse<T> setRecords(List<T> list) {
-        this.records = list;
-        return this;
+    public void setValue(List<T> list) {
+        this.value = list;
     }
 
     @Override

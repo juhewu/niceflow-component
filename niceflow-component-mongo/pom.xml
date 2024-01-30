@@ -50,6 +50,11 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.niceflow</groupId>
+            <artifactId>niceflow-component-translate</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

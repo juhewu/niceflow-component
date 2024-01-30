@@ -3,12 +3,15 @@ package com.niceflow.component.mongo.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niceflow.component.mongo.auditing.DocumentBeforeSaveAuditingHandler;
 import com.niceflow.component.mongo.core.MongoTemplatePlus;
+import com.niceflow.component.mongo.translate.TableTranslateHandler;
+import com.niceflow.component.translate.handler.TranslateHandler;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 
 /**
@@ -44,5 +47,10 @@ public class MongoDbAutoConfig {
     @Bean
     public DocumentBeforeSaveAuditingHandler documentBeforeSaveAuditingHandler() {
         return new DocumentBeforeSaveAuditingHandler();
+    }
+
+    @Bean
+    public TableTranslateHandler tableTranslateHandler(MongoTemplate mongoTemplate) {
+        return new TableTranslateHandler(mongoTemplate);
     }
 }

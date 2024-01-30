@@ -19,6 +19,7 @@
         <module>niceflow-component-mongo</module>
         <module>niceflow-component-security-resource</module>
         <module>niceflow-component-config</module>
+        <module>niceflow-component-translate</module>
     </modules>
 
 

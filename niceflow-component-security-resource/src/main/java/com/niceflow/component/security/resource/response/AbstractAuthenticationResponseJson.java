@@ -1,6 +1,7 @@
 package com.niceflow.component.security.resource.response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.niceflow.component.common.utils.DefaultResponse;
 import com.niceflow.component.common.utils.R;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ public class AbstractAuthenticationResponseJson {
         try (PrintWriter writer = response.getWriter()) {
             R<Object> objectR = R.ok();
             objectR.setCode(code);
-            Optional.ofNullable(data).ifPresent(objectR::setValue);
+            Optional.ofNullable(data).map(DefaultResponse::ok).ifPresent(objectR::setData);
             writer.write(new ObjectMapper().writeValueAsString(objectR));
             writer.flush();
         }

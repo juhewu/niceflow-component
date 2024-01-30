@@ -1,10 +1,7 @@
 package com.niceflow.component.common.utils;
 
-import com.niceflow.component.common.page.PageResponse;
-
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 返回数据
@@ -21,7 +18,7 @@ public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer code;
     private String msg;
-    private Data data;
+    private T data;
 
     public R(Throwable e) {
         this.msg = e.getMessage();
@@ -29,7 +26,7 @@ public class R<T> implements Serializable {
     }
 
     public R(T data) {
-        this.setValue(data);
+        this.data = data;
     }
 
     public R() {
@@ -38,11 +35,15 @@ public class R<T> implements Serializable {
     public R(Integer code, String msg, T data) {
         this.code = code;
         this.msg = msg;
-        this.setValue(data);
+        this.data = data;
     }
 
     public static <T> R<T> ok() {
         return restResult(SUCCESS, null);
+    }
+
+    public static <T> R<DefaultResponse<T>> defaultOk(T data) {
+        return ok(DefaultResponse.ok(data));
     }
 
     public static <T> R<T> ok(T data) {
@@ -80,7 +81,7 @@ public class R<T> implements Serializable {
         R<T> apiResult = new R<>();
         apiResult.setCode(code);
         apiResult.setMsg(msg);
-        apiResult.setValue(data);
+        apiResult.data = data;
         return apiResult;
     }
 
@@ -107,57 +108,11 @@ public class R<T> implements Serializable {
         return this;
     }
 
-    public Data getData() {
+    public T getData() {
         return this.data;
     }
 
-    public R<T> setValue(T value) {
-        this.data = new Data();
-        if (value instanceof PageResponse) {
-            this.data.setValue(((PageResponse<?>) value).getRecords());
-            this.data.setTotal(((PageResponse<?>) value).getTotal());
-            this.data.setPageIndex(((PageResponse<?>) value).getPageIndex());
-            this.data.setPageSize(((PageResponse<?>) value).getPageSize());
-        } else {
-            this.data.value = value;
-        }
-        return this;
-    }
-
-    /**
-     * 关联的数据
-     *
-     * @param ref 关联的数据
-     * @return 当前对象
-     */
-    public R<T> setRef(Map<String, Object> ref) {
-        this.data.ref = ref;
-        return this;
-    }
-
-    /**
-     * 数据
-     */
-    @lombok.Data
-    static class Data implements Serializable {
-
-        private Object value;
-        private Map<String, Object> ref;
-
-        private Long total;
-        private Integer pageIndex;
-        private Integer pageSize;
-
-        public void setTotal(Long total) {
-            this.total = total;
-        }
-
-        public void setPageIndex(Integer pageIndex) {
-            this.pageIndex = pageIndex;
-        }
-
-        public void setPageSize(Integer pageSize) {
-            this.pageSize = pageSize;
-        }
+    public void setData(T data) {
+        this.data = data;
     }
 }

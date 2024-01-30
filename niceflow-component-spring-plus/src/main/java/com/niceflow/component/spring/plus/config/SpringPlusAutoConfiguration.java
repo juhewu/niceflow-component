@@ -1,5 +1,6 @@
 package com.niceflow.component.spring.plus.config;
 
+import com.niceflow.component.spring.plus.response.WrapResponseBodyAdvice;
 import com.niceflow.component.spring.plus.exception.GlobalExceptionHandler;
 import com.niceflow.component.spring.plus.util.SpringApplicationContextUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -22,5 +23,10 @@ public class SpringPlusAutoConfiguration {
     @ConditionalOnMissingBean
     public GlobalExceptionHandler globalExceptionHandler() {
         return new GlobalExceptionHandler();
+    }
+
+    @Bean
+    public WrapResponseBodyAdvice wrapResponseBodyAdvice(){
+        return new WrapResponseBodyAdvice();
     }
 }

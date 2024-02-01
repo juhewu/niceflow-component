@@ -29,8 +29,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-
 public class TenantMongoRepositoryFactory extends MongoRepositoryFactory {
     private static final SpelExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
 
@@ -68,17 +66,30 @@ public class TenantMongoRepositoryFactory extends MongoRepositoryFactory {
         public RepositoryQuery resolveQuery(Method method, RepositoryMetadata metadata, ProjectionFactory factory, NamedQueries namedQueries) {
             MongoQueryMethod queryMethod = new MongoQueryMethod(method, metadata, factory, mappingContext);
             String namedQueryName = queryMethod.getNamedQueryName();
+            boolean annotationPresent = method.isAnnotationPresent(IgnoreTenant.class);
+
+            // 不添加租户条件
+            if (annotationPresent) {
+                if (namedQueries.hasQuery(namedQueryName)) {
+                    String namedQuery = namedQueries.getQuery(namedQueryName);
+                    return new StringBasedMongoQuery(namedQuery, queryMethod, operations, expressionParser,
+                            evaluationContextProvider);
+                } else if (queryMethod.hasAnnotatedAggregation()) {
+                    return new StringBasedAggregation(queryMethod, operations, expressionParser, evaluationContextProvider);
+                } else if (queryMethod.hasAnnotatedQuery()) {
+                    return new StringBasedMongoQuery(queryMethod, operations, expressionParser, evaluationContextProvider);
+                } else {
+                    return new PartTreeMongoQuery(queryMethod, operations, expressionParser, evaluationContextProvider);
+                }
+            }
 
             if (namedQueries.hasQuery(namedQueryName)) {
                 String namedQuery = namedQueries.getQuery(namedQueryName);
-                return new StringBasedMongoQuery(namedQuery, queryMethod, operations, expressionParser, evaluationContextProvider);
+                return new TenantStringBasedMongoQuery(namedQuery, queryMethod, operations, expressionParser, evaluationContextProvider, TenantBaseEntity.class.isAssignableFrom(metadata.getDomainType()));
             } else if (queryMethod.hasAnnotatedAggregation()) {
                 return new StringBasedAggregation(queryMethod, operations, expressionParser, evaluationContextProvider);
             } else if (queryMethod.hasAnnotatedQuery()) {
-                return new StringBasedMongoQuery(queryMethod, operations, expressionParser, evaluationContextProvider);
-            }
-            if (method.getAnnotation(IgnoreTenant.class) != null) {
-                return new PartTreeMongoQuery(queryMethod, operations, expressionParser, evaluationContextProvider);
+                return new TenantStringBasedMongoQuery(queryMethod, operations, expressionParser, evaluationContextProvider, TenantBaseEntity.class.isAssignableFrom(metadata.getDomainType()));
             }
             return new TenantPartTreeMongoQuery(queryMethod, operations, expressionParser, evaluationContextProvider, TenantBaseEntity.class.isAssignableFrom(metadata.getDomainType()));
         }
@@ -106,6 +117,30 @@ public class TenantMongoRepositoryFactory extends MongoRepositoryFactory {
             }
 
             private Query withCurrentTenant(Query query) {
+                if (tenant && !query.getQueryObject().containsKey("tenantId")) {
+                    return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> query.addCriteria(Criteria.where("tenantId").is(x))).orElse(query);
+                }
+                return query;
+            }
+        }
+
+        private class TenantStringBasedMongoQuery extends StringBasedMongoQuery {
+
+            private final boolean tenant;
+
+            public TenantStringBasedMongoQuery(MongoQueryMethod method, MongoOperations mongoOperations, ExpressionParser expressionParser, QueryMethodEvaluationContextProvider evaluationContextProvider, boolean tenant) {
+                super(method, mongoOperations, expressionParser, evaluationContextProvider);
+                this.tenant = tenant;
+            }
+
+            public TenantStringBasedMongoQuery(String query, MongoQueryMethod method, MongoOperations mongoOperations, ExpressionParser expressionParser, QueryMethodEvaluationContextProvider evaluationContextProvider, boolean tenant) {
+                super(query, method, mongoOperations, expressionParser, evaluationContextProvider);
+                this.tenant = tenant;
+            }
+
+            @Override
+            protected Query createQuery(ConvertingParameterAccessor accessor) {
+                Query query = super.createQuery(accessor);
                 if (tenant && !query.getQueryObject().containsKey("tenantId")) {
                     return Optional.ofNullable(UserContextUtil.getUserContext()).map(UserContext::getTenantId).map(x -> query.addCriteria(Criteria.where("tenantId").is(x))).orElse(query);
                 }

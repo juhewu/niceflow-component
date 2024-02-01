@@ -5,7 +5,6 @@ package com.niceflow.component.common.utils;
  * @date 2024/1/24
  */
 public class DefaultResponse<T> extends AbstractRefResponse {
-    private final static DefaultResponse<?> NONE_RESPONSE = new DefaultResponse<>();
     private T value;
 
     public static <T> DefaultResponse<T> ok(T value) {
@@ -20,7 +19,7 @@ public class DefaultResponse<T> extends AbstractRefResponse {
     }
 
     public static DefaultResponse<?> ok() {
-        return NONE_RESPONSE;
+        return null;
     }
 
     public T getValue() {

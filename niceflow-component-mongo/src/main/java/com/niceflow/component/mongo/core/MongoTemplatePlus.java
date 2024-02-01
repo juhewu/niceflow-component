@@ -137,7 +137,7 @@ public class MongoTemplatePlus extends MongoTemplate implements DbTemplate {
     }
 
     public void update(Object object) {
-        Map<String, Object> objectMap = objectMapper.convertValue(object, new TypeReference<>() {
+        Map<String, Object> objectMap = objectMapper.convertValue(object, new TypeReference<Map<String, Object>>() {
 
         });
         objectMap.values().removeIf(Objects::isNull);

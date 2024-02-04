@@ -38,19 +38,18 @@ public class DocumentBeforeSaveAuditingHandler implements ApplicationListener<Be
         try {
             userContext = UserContextUtil.getUserContext();
         } catch (Exception e) {
-            log.warn("获取用户信息失败，不填充审计属性");
+            log.warn("获取用户信息失败，不填充审计信息");
         }
 
         if (Objects.isNull(userContext)) {
-            log.warn("当前请求用户未登录，不填充审计属性");
+            log.warn("用户未登录，不填充审计信息");
             return;
         }
 
-        log.debug("开始填充申请信息，所属对象：{}", source.getClass().getName());
+        log.debug("开始填充审计信息，所属对象：{}", source.getClass().getName());
         document.putIfAbsent("createdBy", userContext.getMemberId());
         if(source instanceof TenantBaseEntity) {
             document.putIfAbsent("tenantId", userContext.getTenantId());
         }
-
     }
 }

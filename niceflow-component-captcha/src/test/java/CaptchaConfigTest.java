@@ -58,10 +58,11 @@ public class CaptchaConfigTest {
         captchaConfig.setGenerator(generator);
 
         Sender sender = new Sender();
-        sender.setType("1");
+        sender.setType(Sender.SendTypeEnum.EMAIL.getValue());
         sender.setReceiver("${username}");
-        sender.setTemplateCode("login_email");
-
+        sender.setContentType(Sender.SenderContentTypeEnum.TEMPLATE_CODE.getValue());
+        sender.setContent("login_email");
+        sender.setCaptcha("4345");
         captchaConfig.setSender(sender);
 
         captcha.put("login_email", captchaConfig);

@@ -53,14 +53,14 @@ public class SliderCaptchaGenerator implements CaptchaGenerator {
     public boolean verify(String type, String input, String secret) {
         ImageCaptchaValidator sliderCaptchaValidator = new BasicCaptchaTrackValidator();
 
-        ImageCaptchaTrack imageCaptchaTrack = new JSONObject(input).toBean(new TypeReference<>() {
+        ImageCaptchaTrack imageCaptchaTrack = new JSONObject(input).toBean(new TypeReference<ImageCaptchaTrack>() {
 
         });
         Float percentage = null;
         // 用户传来的行为轨迹和进行校验
         // - imageCaptchaTrack为前端传来的滑动轨迹数据
         // - map 为生成验证码时缓存的map数据
-        Map<String, Object> map = new JSONObject(input).toBean(new TypeReference<>() {
+        Map<String, Object> map = new JSONObject(input).toBean(new TypeReference<Map<String, Object>>() {
 
         });
         return sliderCaptchaValidator.valid(imageCaptchaTrack, map);

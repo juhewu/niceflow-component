@@ -16,7 +16,7 @@ import lombok.Setter;
  * @date 2023/4/18
  */
 @Data
-@ConfigurationProperties(prefix = "juhewu")
+@ConfigurationProperties(prefix = "niceflow")
 public class CaptchaProperties {
 
     private Map<String, CaptchaConfig> captcha;

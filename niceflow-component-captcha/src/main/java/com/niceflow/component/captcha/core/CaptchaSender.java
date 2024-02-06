@@ -1,7 +1,5 @@
 package com.niceflow.component.captcha.core;
 
-import com.niceflow.component.captcha.core.Sender;
-
 /**
  * 验证码发送
  *

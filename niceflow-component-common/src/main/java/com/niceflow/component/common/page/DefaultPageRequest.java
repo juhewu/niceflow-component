@@ -61,7 +61,14 @@ public class DefaultPageRequest implements PageRequest {
         }
         // 是否为偶数个数
         if (sorts.size() % NumberEnum.TWO.getValue() != NumberEnum.ZERO.getValue()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("排序参数格式：控件 id + 英文逗号 + 1或-1（1升序、-1降序）");
+        }
+
+        for (int i = 0; i < sorts.size(); i = i + NumberEnum.TWO.getValue()) {
+            int value = Integer.parseInt(sorts.get(i + NumberEnum.ONE.getValue()));
+            if (value != 1 && value != -1) {
+                throw new IllegalArgumentException("升序为 1，降序为 -1，传入的 " + value + " 不合法");
+            }
         }
         return sorts;
     }

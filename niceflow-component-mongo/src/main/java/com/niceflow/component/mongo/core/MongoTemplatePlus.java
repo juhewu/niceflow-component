@@ -189,7 +189,7 @@ public class MongoTemplatePlus extends MongoTemplate implements DbTemplate {
             if (!sorts.isEmpty()) {
                 Document document = new Document();
                 for (int i = 0; i < sorts.size(); i = i + NumberEnum.TWO.getValue()) {
-                    document.put(sorts.get(i), Integer.valueOf(sorts.get(i + NumberEnum.ZERO.getValue())));
+                    document.put(sorts.get(i), Integer.valueOf(sorts.get(i + NumberEnum.ONE.getValue())));
                 }
                 iterable.sort(document);
             }

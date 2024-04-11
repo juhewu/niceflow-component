@@ -26,7 +26,8 @@ public class SecurityUserContextProvider implements UserContextProvider {
         if (authentication.getPrincipal() instanceof SecurityUserContext) {
             return converter((SecurityUserContext) authentication.getPrincipal());
         }
-        throw new RuntimeException();
+        // todo UserDetailResponse
+        return null;
     }
 
 
@@ -50,6 +51,7 @@ public class SecurityUserContextProvider implements UserContextProvider {
         userContext.setTenantId(securityUserContext.getTenantId());
         userContext.setCreatedByTenantId(securityUserContext.getCreatedByTenantId());
         userContext.setName(securityUserContext.getName());
+        userContext.setAppId(securityUserContext.getAppId());
         return userContext;
     }
 }

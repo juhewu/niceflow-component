@@ -50,4 +50,9 @@ public class UserContext {
      * 姓名
      */
     private String name;
+
+    /**
+     * 应用 id
+     */
+    private String appId;
 }

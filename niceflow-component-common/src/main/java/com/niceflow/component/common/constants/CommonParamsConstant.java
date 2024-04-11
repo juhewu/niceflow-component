@@ -9,5 +9,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class CommonParamsConstant {
     public static final String ID = "id";
+    public static final String TENANT_ID = "tenant_id";
     public static final String UNDERLINE_ID = "_id";
 }

@@ -70,6 +70,11 @@ public class SecurityUserContext implements OAuth2AuthenticatedPrincipal {
     private String systemId;
 
     /**
+     * 应用 id
+     */
+    private String appId;
+
+    /**
      * 角色
      */
     private List<String> roles;
@@ -93,7 +98,6 @@ public class SecurityUserContext implements OAuth2AuthenticatedPrincipal {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
-
 
 
     static class CustomSimpleGrantedAuthority implements GrantedAuthority {

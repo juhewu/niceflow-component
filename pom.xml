@@ -21,6 +21,7 @@
         <module>niceflow-component-config</module>
         <module>niceflow-component-translate</module>
         <module>niceflow-component-dependencies</module>
+        <module>niceflow-component-parents</module>
     </modules>
 
     <properties>

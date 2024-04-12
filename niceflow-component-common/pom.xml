@@ -11,7 +11,6 @@
 
     <artifactId>niceflow-component-common</artifactId>
 
-
     <dependencies>
         <!--lombok-->
         <dependency>
@@ -24,7 +23,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
         </dependency>
 
         <dependency>

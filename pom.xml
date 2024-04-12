@@ -20,29 +20,24 @@
         <module>niceflow-component-security-resource</module>
         <module>niceflow-component-config</module>
         <module>niceflow-component-translate</module>
+        <module>niceflow-component-dependencies</module>
     </modules>
-
-
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-
-        <!--spring-boot-->
-        <spring-boot.version>3.0.0</spring-boot.version>
-        <!--hutool 常用工具类-->
-        <hutool.version>5.8.11</hutool.version>
+        <reversion>1.0.0-SNAPSHOT</reversion>
     </properties>
 
     <!--依赖管理-->
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <groupId>com.niceflow</groupId>
+                <artifactId>niceflow-component-dependencies</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -61,7 +56,7 @@
         <name>niceflow</name>
         <url>https://github.com/niceflow/</url>
     </organization>
-    
+
     <scm>
         <url>https://github.com/duan847/niceflow-component</url>
         <connection>scm:git:git:////github.com/duan847/niceflow-component.git</connection>

@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.niceflow</groupId>
             <artifactId>niceflow-component-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -31,7 +30,6 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>4.0.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -42,7 +40,6 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.8.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -53,7 +50,6 @@
         <dependency>
             <groupId>com.niceflow</groupId>
             <artifactId>niceflow-component-translate</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

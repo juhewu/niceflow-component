@@ -69,6 +69,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>oauth2-oidc-sdk</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.niceflow</groupId>
             <artifactId>niceflow-component-mongo</artifactId>
         </dependency>

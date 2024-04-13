@@ -3,12 +3,12 @@ package com.niceflow.component.captcha.config;
 import com.niceflow.component.captcha.core.*;
 import com.niceflow.component.captcha.filter.CaptchaFetchFilter;
 import com.niceflow.component.captcha.filter.CaptchaVerifyFilter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class CaptchaAutoConfiguration {
     }
 
     @Bean
-    public CaptchaProvider captchaProvider(CaptchaGenerator captchaGenerator, CaptchaRepository captchaRepository, CaptchaProperties captchaProperties, List<CaptchaSender> captchaSenders) {
+    public CaptchaProvider captchaProvider(@Qualifier("captchaGenerator") CaptchaGenerator captchaGenerator, CaptchaRepository captchaRepository, CaptchaProperties captchaProperties, List<CaptchaSender> captchaSenders) {
         return new DefaultCaptchaProvider(captchaGenerator, captchaRepository, new CaptchaSenderManager(captchaSenders), captchaProperties);
     }
 

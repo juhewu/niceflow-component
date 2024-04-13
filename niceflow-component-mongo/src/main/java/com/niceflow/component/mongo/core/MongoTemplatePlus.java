@@ -3,6 +3,7 @@ package com.niceflow.component.mongo.core;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import com.niceflow.component.common.condition.Condition;
 import com.niceflow.component.common.condition.MongoConditionParse;
 import com.niceflow.component.common.constants.CommonParamsConstant;
@@ -15,6 +16,7 @@ import com.niceflow.component.common.page.PageResponse;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.CollectionPreparer;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -131,7 +133,7 @@ public class MongoTemplatePlus extends MongoTemplate implements DbTemplate {
             return new DefaultPageResponse<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
         }
 
-        List<T> list = super.doFind(collectionName, filterDocument, BsonUtils.EMPTY_DOCUMENT, clazz,
+        List<T> list = super.doFind(collectionName, collection -> collection, filterDocument, BsonUtils.EMPTY_DOCUMENT, clazz,
                 new PageQueryCursorPreparer(pageQuery));
         return new DefaultPageResponse<>(list, count, pageRequest.getPageIndex(), pageRequest.getPageSize());
     }

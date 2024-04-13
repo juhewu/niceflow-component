@@ -37,5 +37,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.niceflow</groupId>
+            <artifactId>niceflow-component-translate</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

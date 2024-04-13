@@ -15,8 +15,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!--spring-boot-->
-        <spring-boot.version>3.0.0</spring-boot.version>
-
+        <spring-boot.version>3.2.0</spring-boot.version>
+        <!--spring-cloud-->
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <!--flowable 流程框架-->
+        <flwoable.version>7.0.0.M1</flwoable.version>
+        <!--niceflow-component-->
         <niceflow-component.version>1.0.0-SNAPSHOT</niceflow-component.version>
 
         <!--hutool 常用工具类-->
@@ -26,7 +30,6 @@
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
         <jackson.version>2.14.1</jackson.version>
         <tianai-captcha.version>1.3.3</tianai-captcha.version>
-        <spring-cloud-openfeign-core.version>4.0.3</spring-cloud-openfeign-core.version>
 
         <!--文件上传-->
         <juhewu-file.version>1.0.2</juhewu-file.version>
@@ -39,6 +42,12 @@
         <!--发送邮件-->
         <javax-mail.version>1.4.7</javax-mail.version>
         <oauth2-oidc-sdk.version>9.43.1</oauth2-oidc-sdk.version>
+        <pinyin4j.version>2.5.1</pinyin4j.version>
+        <mybatis-plus.version>3.5.6</mybatis-plus.version>
+        <httpclient.version>4.5.14</httpclient.version>
+        <flowable-json.version>6.8.0</flowable-json.version>
+        <pagehelper.version>2.1.0</pagehelper.version>
+        <poi.version>5.2.3</poi.version>
     </properties>
 
 
@@ -51,7 +60,13 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -98,7 +113,7 @@
             <dependency>
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-core</artifactId>
-                <version>12.3</version>
+                <version>13.2.1</version>
             </dependency>
 
             <dependency>
@@ -150,17 +165,22 @@
             </dependency>
 
             <dependency>
+                <groupId>com.niceflow</groupId>
+                <artifactId>niceflow-account-api</artifactId>
+                <version>${niceflow-component.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.niceflow</groupId>
+                <artifactId>niceflow-flow-api</artifactId>
+                <version>${niceflow-component.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.juhewu</groupId>
                 <artifactId>juhewu-file-spring-boot-starter</artifactId>
                 <version>${juhewu-file.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-openfeign-core</artifactId>
-                <version>${spring-cloud-openfeign-core.version}</version>
-            </dependency>
-
 
             <!--mapstruct 对象转换，如将 dto 转 vo-->
             <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
@@ -183,12 +203,6 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
 
-            <dependency>
-                <artifactId>hutool-all</artifactId>
-                <groupId>cn.hutool</groupId>
-                <version>${hutool.version}</version>
-            </dependency>
-
             <!--二维码-->
             <dependency>
                 <groupId>com.google.zxing</groupId>
@@ -206,6 +220,63 @@
                 <groupId>com.nimbusds</groupId>
                 <artifactId>oauth2-oidc-sdk</artifactId>
                 <version>${oauth2-oidc-sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>${pinyin4j.version}</version>
+            </dependency>
+
+            <!--flowable 流程框架-->
+            <!-- https://mvnrepository.com/artifact/org.flowable/flowable-spring-boot-starter -->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flwoable.version}</version>
+            </dependency>
+
+            <!--mybatis-plus orm 框架，通过操作实体来操作数据库-->
+            <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!--http client-->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <!--流程图 json 转 xml-->
+            <!-- https://mvnrepository.com/artifact/org.flowable/flowable-json-converter -->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-json-converter</artifactId>
+                <version>${flowable-json.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+            <!--mybatis 分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -55,7 +55,22 @@
 
         <dependency>
             <groupId>com.niceflow</groupId>
+            <artifactId>niceflow-component-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.niceflow</groupId>
             <artifactId>niceflow-component-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.niceflow</groupId>
+            <artifactId>niceflow-component-security-resource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.niceflow</groupId>
+            <artifactId>niceflow-component-mongo</artifactId>
         </dependency>
 
         <!--lombok-->
@@ -80,15 +95,32 @@
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.niceflow</groupId>
-            <artifactId>niceflow-component-security-resource</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.niceflow</groupId>
-            <artifactId>niceflow-component-mongo</artifactId>
-        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>3.2.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

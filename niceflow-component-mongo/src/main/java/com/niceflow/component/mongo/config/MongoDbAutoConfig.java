@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niceflow.component.mongo.auditing.DocumentBeforeSaveAuditingHandler;
 import com.niceflow.component.mongo.core.MongoTemplatePlus;
 import com.niceflow.component.mongo.translate.TableTranslateHandler;
-import com.niceflow.component.translate.handler.TranslateHandler;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -50,7 +50,7 @@ public class MongoDbAutoConfig {
     }
 
     @Bean
-    public TableTranslateHandler tableTranslateHandler(MongoTemplate mongoTemplate) {
+    public TableTranslateHandler tableTranslateHandler(@Qualifier("mongoTemplate") MongoTemplate mongoTemplate) {
         return new TableTranslateHandler(mongoTemplate);
     }
 }

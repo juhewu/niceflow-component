@@ -1,5 +1,7 @@
 package com.niceflow.component.common.utils;
 
+import org.slf4j.MDC;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -19,24 +21,25 @@ public class R<T> implements Serializable {
     private Integer code;
     private String msg;
     private T data;
+    private String traceId;
 
-    public R(Throwable e) {
-        this.msg = e.getMessage();
-        this.code = FAIL;
+//    private R(Throwable e) {
+//        this.msg = e.getMessage();
+//        this.code = FAIL;
+//    }
+//
+//    private R(T data) {
+//        this.data = data;
+//    }
+
+    private R() {
     }
 
-    public R(T data) {
-        this.data = data;
-    }
-
-    public R() {
-    }
-
-    public R(Integer code, String msg, T data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
+//    private R(Integer code, String msg, T data) {
+//        this.code = code;
+//        this.msg = msg;
+//        this.data = data;
+//    }
 
     public static <T> R<T> ok() {
         return restResult(SUCCESS, null);
@@ -71,10 +74,7 @@ public class R<T> implements Serializable {
     }
 
     private static <T> R<T> restResult(Integer code, String msg) {
-        R<T> apiResult = new R<>();
-        apiResult.setCode(code);
-        apiResult.setMsg(msg);
-        return apiResult;
+        return restResult(null, code, msg);
     }
 
     private static <T> R<T> restResult(T data, Integer code, String msg) {
@@ -82,6 +82,7 @@ public class R<T> implements Serializable {
         apiResult.setCode(code);
         apiResult.setMsg(msg);
         apiResult.data = data;
+        apiResult.setTraceId(MDC.get("traceId"));
         return apiResult;
     }
 
@@ -114,5 +115,13 @@ public class R<T> implements Serializable {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public String getTraceId() {
+        return this.traceId;
     }
 }

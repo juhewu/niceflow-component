@@ -48,6 +48,7 @@
         <flowable-json.version>6.8.0</flowable-json.version>
         <pagehelper.version>2.1.0</pagehelper.version>
         <poi.version>5.2.3</poi.version>
+        <micrometer.version>1.2.5</micrometer.version>
     </properties>
 
 
@@ -277,6 +278,12 @@
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing-bridge-otel</artifactId>
+                <version>${micrometer.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

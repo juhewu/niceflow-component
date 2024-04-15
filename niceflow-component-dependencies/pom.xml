@@ -49,6 +49,7 @@
         <pagehelper.version>2.1.0</pagehelper.version>
         <poi.version>5.2.3</poi.version>
         <micrometer.version>1.2.5</micrometer.version>
+        <feign-micrometer.version>13.2.1</feign-micrometer.version>
     </properties>
 
 
@@ -285,6 +286,14 @@
                 <artifactId>micrometer-tracing-bridge-otel</artifactId>
                 <version>${micrometer.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-micrometer -->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-micrometer</artifactId>
+                <version>${feign-micrometer.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
